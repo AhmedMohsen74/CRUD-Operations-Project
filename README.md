@@ -1,7 +1,7 @@
 # ASP.NET MVC Application with EF Core and CRUD Operations
 This project is a web application built using ASP.NET MVC and Entity Framework Core (EF Core). The primary goal of the application is to demonstrate the implementation of CRUD (Create, Read, Update, Delete) operations within a robust, scalable, and maintainable architecture.
 
-## Features
+# Features
 
 - **CRUD Operations:** Perform create, read, update, and delete actions on records.
 - **MVC Architecture:** Clear separation of concerns using the Model-View-Controller pattern.
