@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Crudd2.Models.Book>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-primary">Books</h2>
+<hr />
+
+
+<a href="@Url.Action("Create")" class="btn btn-primary my-5">
+    <i class="icofont-plus"></i>
+    Add New
+</a>
+
+<span id="message" class="d-none">@TempData["Message"]</span>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">
+        No books added!
+
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>AddedOn</th>
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(book.Title ,"Details","Books",new { id = book.Id},null)</td>
+                    <td>@book.Author</td>
+                    <td>@book.Category.Name</td>
+                    <td>@book.Description</td>
+                    <td>@book.AddedOn</td>
+                    <td>
+                        <a href="@Url.Action("Edit","Books" , new {id = book.Id })" class="btn btn-primary">
+                            Edit
+                        </a>
+                        <a href="javascript:;" class="btn btn-danger js-delete" data-id="@book.Id">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }   
+        </tbody>
+
+    </table>
+
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var message = $('#message').text();
+            if (message !== '') {
+                toastr.success(message);
+            }
+
+            $('.js-delete').on('click', function () {
+                var btn = $(this);
+                var result = confirm("Are u Sure");
+                if (result) {
+                    $.ajax({
+                        url: '/api/books/' + btn.data('id'),
+                        method: 'DELETE',
+                        success: function () {
+                            btn.parents('tr').fadeOut(function () {
+                                this.remove();
+                            });
+                            toastr.success("book deleted")
+                        },
+                        error: function () {
+                            toastr.error("error")
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
